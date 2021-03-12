@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        #top{
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 85px;
+        }
+        body{
+            background-color: orange;
+        }
+        #score{
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 45px;
+        }
+        .RPS{
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .buttons{
+            font-size: 50px;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+        #moves{
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 35px;
+        }
+        #outcome{
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+        }
+        #reset{
+            position: absolute;
+            left: 50%;
+            top: 75%;
+            transform: translate(-50%, -50%);
+            background-color: grey;
+            font-size: 30px;
+        }
+        #Rock{
+            background-color: red;
+        }
+        #Paper{
+            background-color: yellow;
+        }
+        #Scissors{
+            background-color: blue;
+        }
+    </style>
+    <head>
+        <title>Rock Paper Scissors</title>
+        <meta charset="UTF-8">
+    </head>
+        <h1>
+            <div id="top">Rock Paper Scissors!</div>
+        </h1>
+        <body>
+            <ul class="RPS">
+            <button type="button" class="buttons" id="Rock">Rock</button>
+            <button type="button" class="buttons" id="Paper">Paper</button>
+            <button type="button" class="buttons" id="Scissors">Scissors</button>
+            </ul>
+            <div id="moves"></div>
+            <div id="outcome"></div>
+            <div id="score"></div>
+            <button type="button" id="reset">Reset</button>
+        </body>
+    
+    <script>
+        function computerPlay(){
+            let n = Math.floor(Math.random() * (3)) + 1;
+            let move = (n == 3) ? "Rock" : (n == 2) ? "Paper" : "Scissors";
+            return move;
+            }
+        let playerScore = 0;
+        let opponentScore = 0;
+        let rock = document.querySelector("#Rock");
+        let paper = document.querySelector("#Paper");
+        let scissors = document.querySelector("#Scissors");
+        let reset = document.querySelector("#reset");
+        let moves = document.querySelector("#moves");
+        let outcome = document.querySelector("#outcome");
+        let scoreBoard = document.querySelector("#score");
+        rock.addEventListener("click", function() {game("Rock"); });
+        paper.addEventListener("click", function() {game("Paper"); });
+        scissors.addEventListener("click", function() { game("Scissors" );});
+        window.addEventListener("click", function(e){
+        scoreBoard.textContent = ("Your Score: " + playerScore + " " + "Opponent Score: " + opponentScore);
+        });
+        reset.addEventListener("click", function(e){
+            playerScore = 0;
+            opponentScore = 0;
+        });
+        function game(selection){
+            function rps(playerSelection, computerSelection){
+                 if (playerSelection == "Rock") {
+                     let result = (computerSelection == "Scissors") ? "You Win!" :
+                              (computerSelection == "Paper") ? "You Lose." : "Tie";
+                    return result;
+                }
+                if (playerSelection == "Scissors") {
+                 let result = (computerSelection == "Paper") ? "You Win!" :
+                                 (computerSelection == "Rock") ? "You Lose." : "Tie";
+                return result;
+                }
+                if (playerSelection == "Paper") {
+                 let result = (computerSelection == "Rock") ? "You Win!" :
+                                 (computerSelection == "Scissors") ? "You Lose." : "Tie";
+                return result;
+                }
+                return "You must select Rock, Paper, or Scissors.";
+            }
+            if (playerScore !== 5 && opponentScore !== 5) {
+                let playerMove = selection;
+                let opponentMove = computerPlay();
+                let result = rps(playerMove, opponentMove);
+            
+                if (result == "You Win!"){
+                    playerScore++;
+                } else if (result == "You Lose.") {
+                    opponentScore++;
+                }
+                moves.textContent = ("You chose " + playerMove + ", " + "Your opponent chose " + opponentMove);
+                outcome.textContent = (result);
+                if (playerScore == 5 || opponentScore == 5) {
+                    moves.textContent = ("GAME OVER!");
+                }
+            }
+        }
+    </script>
+</html>
